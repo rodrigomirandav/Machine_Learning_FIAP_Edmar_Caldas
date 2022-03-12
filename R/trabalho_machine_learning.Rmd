@@ -1,0 +1,306 @@
+---
+title: "Trabalho de Machine Learning"
+author: "Rodrigo de Miranda Videira"
+date: "11/03/2022"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+---
+
+Contexto:
+
+A indústria XPTO fabrica cerveja artesanais e durante o ano ela abre sua fábrica para visitas.
+O gestor da fábrica pretende usar a ciência de dados para explicar a quantidade de turistas e prever quantos turistas/visitas
+terá no mês de janeiro/2021. Para isso, a indústria contratou uma consultoria para resolver o problema de negócio.
+
+Bibliotecas utilizadas
+
+```{r}
+library(tidyverse)
+library(ggcorrplot)
+library(readxl)
+library(MASS)
+```
+
+
+Carregando a base de dados para análise
+
+```{r}
+df <- read_excel("cervejaria.xlsx")
+view(df)
+```
+
+Análisando as variáveis presentes no dataset
+
+```{r}
+names(df)
+```
+
+```{r}
+str(df)
+```
+
+Tipos de variáveis
+
+```{r}
+#visitas -> Quantitativa discreta
+#excursoes -> Quantitativa contínua
+#preco -> Quantitativa contínua
+#ano -> Categórica ordinal
+#trimestre -> Categórica ordinal
+#data -> Categórica ordinal
+```
+
+Realizando a correção dos tipos categoricos
+
+```{r}
+df$trimestre = as.factor(df$trimestre)
+df$data = as.factor(df$data)
+str(df)
+```
+Realizando análises estátisticas das variáveis:
+
+* Visitas (Quantitativa)
+
+```{r}
+summary(df$visitas)
+
+# Tirando os quartils Q1 e Q3 para análise de outliers
+visitas_Q1 = quantile(df$visitas  , 0.25)
+visitas_Q3 = quantile(df$visitas  , 0.75)
+visitas_IQR = visitas_Q3 - visitas_Q1
+```
+Gráficos Visitas
+
+```{r}
+ggplot(df, mapping = aes(x = `visitas`)) +
+  geom_histogram(bins = 9)
+```
+
+```{r}
+ggplot(df, mapping = aes(x = `visitas`)) +
+  geom_boxplot()
+```
+
+Pelos gráficos e valores apurados, a variável "Visitas" possui:
+
+Média: 159206
+Mediana: 147154
+
+Como a média é maior que a mediana, e também pelo histograma os dados possuem assimetria a direita
+Também pelo gráfico de boxplot não verificamos outliers.
+
+```{r}
+
+```
+
+
+* Excursoes (Quantitativa)
+
+```{r}
+summary(df$excursoes)
+
+# Tirando os quartils Q1 e Q3 para análise de outliers
+excursoes_Q1 = quantile(df$excursoes  , 0.25)
+excursoes_Q3 = quantile(df$excursoes  , 0.75)
+excursoes_IQR = excursoes_Q3 - excursoes_Q1
+```
+Gráficos excursões
+
+```{r}
+ggplot(df, mapping = aes(x = `excursoes`)) +
+  geom_histogram(bins = 10)
+```
+
+```{r}
+ggplot(df, mapping = aes(x = `excursoes`)) +
+  geom_boxplot()
+```
+
+Pelos gráficos e valores apurados, a variável "Excursoes" possui:
+
+Média: 164.2
+Mediana: 167.0
+
+Como a média é menor que a mediana, e também pelo histograma os dados possuem assimetria a esquerda
+Também pelo gráfico de boxplot não verificamos outliers.
+
+```{r}
+
+```
+
+* Preço (Quantitativa)
+
+```{r}
+summary(df$preco)
+
+# Tirando os quartils Q1 e Q3 para análise de outliers
+preco_Q1 = quantile(df$preco  , 0.25)
+preco_Q3 = quantile(df$preco  , 0.75)
+preco_IQR = preco_Q3 - preco_Q1
+```
+Gráficos excursões
+
+```{r}
+ggplot(df, mapping = aes(x = `preco`)) +
+  geom_histogram(bins = 7)
+```
+
+```{r}
+ggplot(df, mapping = aes(x = `preco`)) +
+  geom_boxplot()
+```
+
+Pelos gráficos e valores apurados, a variável "Preço" possui:
+
+Média: 4.741
+Mediana: 4.600
+
+Como a média é maior que a mediana, e também pelo histograma os dados possuem assimetria a direita
+Também pelo gráfico de boxplot não verificamos outliers.
+
+```{r}
+
+```
+
+
+* Ano (Qualitativa)
+
+```{r}
+ano_tabela <- table(df$ano);ano_tabela
+```
+
+Realizando análise de correlações das variáveis quantitativas
+
+```{r}
+df_numericos <- select_if(df, is.numeric)
+correl <-cor(df_numericos)
+ggcorrplot(correl)
+```
+Pelo gráfico e valores de correlações,
+temos que as variáveis Excursões e Visitas possuem uma correlação de média para quase fortemente correlacionada.
+Sendo que nossa variável Visitas é a target. 
+Entre as variáveis independentes elas não possuem uma alta correlação sendo para nossa modelo mante-las.
+
+```{r}
+cor(df_numericos)
+```
+Fazendo transformações nas nossas variáveis.
+
+Transformando ano para integer e criando as dummies da coluna de "trimestre" e descartando nossa variável qualitativa de "data"
+
+```{r}
+df$ano = as.numeric(df$ano)
+df$data = NULL
+```
+
+Criando dummies com a variável "trimestre"
+
+```{r}
+df$trimestre_q1 <- ifelse(df$trimestre == 1, 1,0)
+df$trimestre_q2 <- ifelse(df$trimestre == 2, 1,0)
+df$trimestre_q3 <- ifelse(df$trimestre == 3, 1,0)
+df$trimestre_q4 <- ifelse(df$trimestre == 4, 1,0)
+df$trimestre <-  NULL
+
+# Retirando um dos trimestres
+df$trimestre_q1 <- NULL
+```
+
+Verificando o DataFrame final com as transformações
+
+```{r}
+view(df)
+str(df)
+```
+Criando o modelo de regressão linear
+
+1º MODELO
+
+```{r}
+modelo_1 <- lm(visitas ~ ., data = df)
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(modelo_1)
+```
+Testando a normalidade dos resíduos.
+
+Ho: distribuição dos dados = normal ->  p > 0.05
+H1: distribuição dos dados <> normal ->  p < 0.05
+
+```{r}
+shapiro.test(modelo_1$residuals)
+```
+
+Escolhendo variáveis atráves do stepAIC - backward
+
+```{r}
+mod.simples  <- lm(visitas ~ 1, data = df)
+stepAIC(modelo_1, scope = list(upper = modelo_1,
+                               lower = mod.simples, direction = "backward"))
+```
+Criando o modelo com as variáveis selecionadas pelo metodo stepAIC usando método backward
+
+```{r}
+modelo_2  <- lm(formula = visitas ~ excursoes + trimestre_q2 + trimestre_q3, 
+                  data = df)
+```
+
+Comparando os modelos
+
+Modelo 1
+
+```{r}
+summary(modelo_1)
+```
+
+Modelo 2 - stepAIC backward
+
+```{r}
+summary(modelo_2)
+```
+
+Conclusões:
+
+Em nosso modelo 1 utilizando todas as variáveis do nosso dataframe:
+
+excursoes + preco + ano + trimestre_q2 + trimestre_q3 + trimestre_q4
+
+chegamos a uma acurácia de 74,56
+
+Já em nosso modelo 2 utilizando menos variáveis conseguimos chegar a uma acurácia maior,
+e utilizando as seguintes variáveis:
+
+excursoes + trimestre_q2 + trimestre_q3
+
+nossa acurácia deste modelo foi de 75,98
+
+uma diferença de 1,42 para melhor, mas com um mínimo de variáveis.
+
+Chegando ao nosso modelo final escolhido:
+
+
+      y (visitas) =  -24298.4 + (excursoes) * 959.6 + (trimestre_q2) * 59770.2 + (trimestre_q3) * 43877.7
+      
+Predizendo um registro de nossa base de dados
+
+```{r}
+linha_selecionada = df[1,]
+linha_selecionada
+```
+
+```{r}
+y <- -24298.4 + linha_selecionada$excursoes * 959.6 + linha_selecionada$trimestre_q2 * 59770.2 + linha_selecionada$trimestre_q3 * 43877.7
+y
+```
+
+
+
+
+
+
+

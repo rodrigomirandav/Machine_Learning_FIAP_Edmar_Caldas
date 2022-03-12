@@ -1,0 +1,734 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{Trabalho de Machine Learning}
+\author{Rodrigo de Miranda Videira}
+\date{11/03/2022}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Trabalho de Machine Learning},
+  pdfauthor={Rodrigo de Miranda Videira},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+Contexto:
+
+A indústria XPTO fabrica cerveja artesanais e durante o ano ela abre sua
+fábrica para visitas. O gestor da fábrica pretende usar a ciência de
+dados para explicar a quantidade de turistas e prever quantos
+turistas/visitas terá no mês de janeiro/2021. Para isso, a indústria
+contratou uma consultoria para resolver o problema de negócio.
+
+Bibliotecas utilizadas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.5     v dplyr   1.0.7
+## v tidyr   1.1.4     v stringr 1.4.0
+## v readr   2.0.2     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggcorrplot)}
+\FunctionTok{library}\NormalTok{(readxl)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'MASS'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     select
+\end{verbatim}
+
+Carregando a base de dados para análise
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{read\_excel}\NormalTok{(}\StringTok{"cervejaria.xlsx"}\NormalTok{)}
+\FunctionTok{view}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+Análisando as variáveis presentes no dataset
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "visitas"   "excursoes" "preco"     "ano"       "trimestre" "data"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [28 x 6] (S3: tbl_df/tbl/data.frame)
+##  $ visitas  : num [1:28] 86947 134868 143617 102210 93407 ...
+##  $ excursoes: num [1:28] 115 135 155 157 110 ...
+##  $ preco    : num [1:28] 4.6 5.1 5.3 4.6 4.5 5.6 6.1 6.35 3.6 3.7 ...
+##  $ ano      : num [1:28] 2014 2014 2014 2014 2015 ...
+##  $ trimestre: num [1:28] 1 2 3 4 1 2 3 4 1 2 ...
+##  $ data     : chr [1:28] "Q1 2014" "Q2 2014" "Q3 2014" "Q4 2014" ...
+\end{verbatim}
+
+Tipos de variáveis
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#visitas {-}\textgreater{} Quantitativa discreta}
+\CommentTok{\#excursoes {-}\textgreater{} Quantitativa contínua}
+\CommentTok{\#preco {-}\textgreater{} Quantitativa contínua}
+\CommentTok{\#ano {-}\textgreater{} Categórica ordinal}
+\CommentTok{\#trimestre {-}\textgreater{} Categórica ordinal}
+\CommentTok{\#data {-}\textgreater{} Categórica ordinal}
+\end{Highlighting}
+\end{Shaded}
+
+Realizando a correção dos tipos categoricos
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{trimestre)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{data }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{data)}
+\FunctionTok{str}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [28 x 6] (S3: tbl_df/tbl/data.frame)
+##  $ visitas  : num [1:28] 86947 134868 143617 102210 93407 ...
+##  $ excursoes: num [1:28] 115 135 155 157 110 ...
+##  $ preco    : num [1:28] 4.6 5.1 5.3 4.6 4.5 5.6 6.1 6.35 3.6 3.7 ...
+##  $ ano      : num [1:28] 2014 2014 2014 2014 2015 ...
+##  $ trimestre: Factor w/ 4 levels "1","2","3","4": 1 2 3 4 1 2 3 4 1 2 ...
+##  $ data     : Factor w/ 28 levels "Q1 2014","Q1 2015",..: 1 8 15 22 2 9 16 23 3 10 ...
+\end{verbatim}
+
+Realizando análises estátisticas das variáveis:
+
+\begin{itemize}
+\tightlist
+\item
+  Visitas (Quantitativa)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{visitas)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   59924  114479  147154  159206  219222  310199
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tirando os quartils Q1 e Q3 para análise de outliers}
+\NormalTok{visitas\_Q1 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{visitas  , }\FloatTok{0.25}\NormalTok{)}
+\NormalTok{visitas\_Q3 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{visitas  , }\FloatTok{0.75}\NormalTok{)}
+\NormalTok{visitas\_IQR }\OtherTok{=}\NormalTok{ visitas\_Q3 }\SpecialCharTok{{-}}\NormalTok{ visitas\_Q1}
+\end{Highlighting}
+\end{Shaded}
+
+Gráficos Visitas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{visitas}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{visitas}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+Pelos gráficos e valores apurados, a variável ``Visitas'' possui:
+
+Média: 159206 Mediana: 147154
+
+Como a média é maior que a mediana, e também pelo histograma os dados
+possuem assimetria a direita Também pelo gráfico de boxplot não
+verificamos outliers.
+
+\begin{itemize}
+\tightlist
+\item
+  Excursoes (Quantitativa)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{excursoes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    85.0   130.6   167.0   164.2   187.5   245.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tirando os quartils Q1 e Q3 para análise de outliers}
+\NormalTok{excursoes\_Q1 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{excursoes  , }\FloatTok{0.25}\NormalTok{)}
+\NormalTok{excursoes\_Q3 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{excursoes  , }\FloatTok{0.75}\NormalTok{)}
+\NormalTok{excursoes\_IQR }\OtherTok{=}\NormalTok{ excursoes\_Q3 }\SpecialCharTok{{-}}\NormalTok{ excursoes\_Q1}
+\end{Highlighting}
+\end{Shaded}
+
+Gráficos excursões
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{excursoes}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{excursoes}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Pelos gráficos e valores apurados, a variável ``Excursoes'' possui:
+
+Média: 164.2 Mediana: 167.0
+
+Como a média é menor que a mediana, e também pelo histograma os dados
+possuem assimetria a esquerda Também pelo gráfico de boxplot não
+verificamos outliers.
+
+\begin{itemize}
+\tightlist
+\item
+  Preço (Quantitativa)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{preco)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   3.600   4.338   4.600   4.741   5.150   6.350
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Tirando os quartils Q1 e Q3 para análise de outliers}
+\NormalTok{preco\_Q1 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{preco  , }\FloatTok{0.25}\NormalTok{)}
+\NormalTok{preco\_Q3 }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{preco  , }\FloatTok{0.75}\NormalTok{)}
+\NormalTok{preco\_IQR }\OtherTok{=}\NormalTok{ preco\_Q3 }\SpecialCharTok{{-}}\NormalTok{ preco\_Q1}
+\end{Highlighting}
+\end{Shaded}
+
+Gráficos excursões
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{preco}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{\textasciigrave{}}\AttributeTok{preco}\StringTok{\textasciigrave{}}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-17-1.pdf}
+
+Pelos gráficos e valores apurados, a variável ``Preço'' possui:
+
+Média: 4.741 Mediana: 4.600
+
+Como a média é maior que a mediana, e também pelo histograma os dados
+possuem assimetria a direita Também pelo gráfico de boxplot não
+verificamos outliers.
+
+\begin{itemize}
+\tightlist
+\item
+  Ano (Qualitativa)
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ano\_tabela }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{ano);ano\_tabela}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## 2014 2015 2016 2017 2018 2019 2020 
+##    4    4    4    4    4    4    4
+\end{verbatim}
+
+Realizando análise de correlações das variáveis quantitativas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df\_numericos }\OtherTok{\textless{}{-}} \FunctionTok{select\_if}\NormalTok{(df, is.numeric)}
+\NormalTok{correl }\OtherTok{\textless{}{-}}\FunctionTok{cor}\NormalTok{(df\_numericos)}
+\FunctionTok{ggcorrplot}\NormalTok{(correl)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-20-1.pdf}
+Pelo gráfico e valores de correlações, temos que as variáveis Excursões
+e Visitas possuem uma correlação de média para quase fortemente
+correlacionada. Sendo que nossa variável Visitas é a target. Entre as
+variáveis independentes elas não possuem uma alta correlação sendo para
+nossa modelo mante-las.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cor}\NormalTok{(df\_numericos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              visitas excursoes      preco        ano
+## visitas   1.00000000 0.7822459 0.08829592 0.34171769
+## excursoes 0.78224587 1.0000000 0.14890031 0.46199067
+## preco     0.08829592 0.1489003 1.00000000 0.03380983
+## ano       0.34171769 0.4619907 0.03380983 1.00000000
+\end{verbatim}
+
+Fazendo transformações nas nossas variáveis.
+
+Transformando ano para integer e criando as dummies da coluna de
+``trimestre'' e descartando nossa variável qualitativa de ``data''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{ano }\OtherTok{=} \FunctionTok{as.numeric}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{ano)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{data }\OtherTok{=} \ConstantTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+Criando dummies com a variável ``trimestre''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre\_q1 }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{trimestre }\SpecialCharTok{==} \DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre\_q2 }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{trimestre }\SpecialCharTok{==} \DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre\_q3 }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{trimestre }\SpecialCharTok{==} \DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre\_q4 }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{trimestre }\SpecialCharTok{==} \DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre }\OtherTok{\textless{}{-}}  \ConstantTok{NULL}
+
+\CommentTok{\# Retirando um dos trimestres}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{trimestre\_q1 }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\end{Highlighting}
+\end{Shaded}
+
+Verificando o DataFrame final com as transformações
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{view}\NormalTok{(df)}
+\FunctionTok{str}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tibble [28 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ visitas     : num [1:28] 86947 134868 143617 102210 93407 ...
+##  $ excursoes   : num [1:28] 115 135 155 157 110 ...
+##  $ preco       : num [1:28] 4.6 5.1 5.3 4.6 4.5 5.6 6.1 6.35 3.6 3.7 ...
+##  $ ano         : num [1:28] 2014 2014 2014 2014 2015 ...
+##  $ trimestre_q2: num [1:28] 0 1 0 0 0 1 0 0 0 1 ...
+##  $ trimestre_q3: num [1:28] 0 0 1 0 0 0 1 0 0 0 ...
+##  $ trimestre_q4: num [1:28] 0 0 0 1 0 0 0 1 0 0 ...
+\end{verbatim}
+
+Criando o modelo de regressão linear
+
+1º MODELO
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(visitas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ ., }\AttributeTok{data =}\NormalTok{ df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(modelo\_1)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{trabalho_machine_learning_files/figure-latex/unnamed-chunk-26-1.pdf}
+Testando a normalidade dos resíduos.
+
+Ho: distribuição dos dados = normal -\textgreater{} p \textgreater{}
+0.05 H1: distribuição dos dados \textless\textgreater{} normal
+-\textgreater{} p \textless{} 0.05
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_1}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  modelo_1$residuals
+## W = 0.97961, p-value = 0.841
+\end{verbatim}
+
+Escolhendo variáveis atráves do stepAIC - backward
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod.simples  }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(visitas }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ df)}
+\FunctionTok{stepAIC}\NormalTok{(modelo\_1, }\AttributeTok{scope =} \FunctionTok{list}\NormalTok{(}\AttributeTok{upper =}\NormalTok{ modelo\_1,}
+                               \AttributeTok{lower =}\NormalTok{ mod.simples, }\AttributeTok{direction =} \StringTok{"backward"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Start:  AIC=585.37
+## visitas ~ excursoes + preco + ano + trimestre_q2 + trimestre_q3 + 
+##     trimestre_q4
+## 
+##                Df  Sum of Sq        RSS    AIC
+## - trimestre_q4  1 8.1020e+05 2.0387e+10 583.37
+## - ano           1 1.7760e+08 2.0564e+10 583.61
+## - preco         1 1.2715e+09 2.1658e+10 585.06
+## <none>                       2.0387e+10 585.37
+## - trimestre_q3  1 3.4455e+09 2.3832e+10 587.74
+## - trimestre_q2  1 8.4179e+09 2.8804e+10 593.04
+## - excursoes     1 1.3148e+10 3.3534e+10 597.30
+## 
+## Step:  AIC=583.37
+## visitas ~ excursoes + preco + ano + trimestre_q2 + trimestre_q3
+## 
+##                Df  Sum of Sq        RSS    AIC
+## - ano           1 2.3474e+08 2.0622e+10 581.69
+## - preco         1 1.3931e+09 2.1780e+10 583.22
+## <none>                       2.0387e+10 583.37
+## + trimestre_q4  1 8.1020e+05 2.0387e+10 585.37
+## - trimestre_q3  1 8.7078e+09 2.9095e+10 591.33
+## - trimestre_q2  1 1.7520e+10 3.7907e+10 598.73
+## - excursoes     1 2.4965e+10 4.5352e+10 603.75
+## 
+## Step:  AIC=581.69
+## visitas ~ excursoes + preco + trimestre_q2 + trimestre_q3
+## 
+##                Df  Sum of Sq        RSS    AIC
+## - preco         1 1.3775e+09 2.2000e+10 581.50
+## <none>                       2.0622e+10 581.69
+## + ano           1 2.3474e+08 2.0387e+10 583.37
+## + trimestre_q4  1 5.7952e+07 2.0564e+10 583.61
+## - trimestre_q3  1 8.5193e+09 2.9141e+10 589.37
+## - trimestre_q2  1 1.7289e+10 3.7912e+10 596.74
+## - excursoes     1 3.6995e+10 5.7617e+10 608.46
+## 
+## Step:  AIC=581.5
+## visitas ~ excursoes + trimestre_q2 + trimestre_q3
+## 
+##                Df  Sum of Sq        RSS    AIC
+## <none>                       2.2000e+10 581.50
+## + preco         1 1.3775e+09 2.0622e+10 581.69
+## + trimestre_q4  1 2.6674e+08 2.1733e+10 583.16
+## + ano           1 2.1913e+08 2.1780e+10 583.22
+## - trimestre_q3  1 7.4368e+09 2.9436e+10 587.65
+## - trimestre_q2  1 1.6195e+10 3.8195e+10 594.95
+## - excursoes     1 3.6422e+10 5.8422e+10 606.85
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = visitas ~ excursoes + trimestre_q2 + trimestre_q3, 
+##     data = df)
+## 
+## Coefficients:
+##  (Intercept)     excursoes  trimestre_q2  trimestre_q3  
+##     -24298.4         959.6       59770.2       43877.7
+\end{verbatim}
+
+Criando o modelo com as variáveis selecionadas pelo metodo stepAIC
+usando método backward
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_2  }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ visitas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ excursoes }\SpecialCharTok{+}\NormalTok{ trimestre\_q2 }\SpecialCharTok{+}\NormalTok{ trimestre\_q3, }
+                  \AttributeTok{data =}\NormalTok{ df)}
+\end{Highlighting}
+\end{Shaded}
+
+Comparando os modelos
+
+Modelo 1
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(modelo\_1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = visitas ~ ., data = df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -56104 -18416    629  13360  62251 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)  -3262115.5  7670942.9  -0.425  0.67498   
+## excursoes         927.8      252.1   3.680  0.00139 **
+## preco          -10611.3     9272.1  -1.144  0.26532   
+## ano              1631.8     3815.2   0.428  0.67321   
+## trimestre_q2    62810.9    21330.3   2.945  0.00774 **
+## trimestre_q3    49495.8    26272.6   1.884  0.07350 . 
+## trimestre_q4     -683.6    23663.7  -0.029  0.97723   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 31160 on 21 degrees of freedom
+## Multiple R-squared:  0.8021, Adjusted R-squared:  0.7456 
+## F-statistic: 14.19 on 6 and 21 DF,  p-value: 1.978e-06
+\end{verbatim}
+
+Modelo 2 - stepAIC backward
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(modelo\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = visitas ~ excursoes + trimestre_q2 + trimestre_q3, 
+##     data = df)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -61578 -18976  -2401  18026  65120 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -24298.4    24194.8  -1.004 0.325262    
+## excursoes       959.6      152.2   6.304 1.62e-06 ***
+## trimestre_q2  59770.2    14219.7   4.203 0.000315 ***
+## trimestre_q3  43877.7    15404.6   2.848 0.008872 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 30280 on 24 degrees of freedom
+## Multiple R-squared:  0.7864, Adjusted R-squared:  0.7598 
+## F-statistic: 29.46 on 3 and 24 DF,  p-value: 3.248e-08
+\end{verbatim}
+
+Conclusões:
+
+Em nosso modelo 1 utilizando todas as variáveis do nosso dataframe:
+
+excursoes + preco + ano + trimestre\_q2 + trimestre\_q3 + trimestre\_q4
+
+chegamos a uma acurácia de 74,56
+
+Já em nosso modelo 2 utilizando menos variáveis conseguimos chegar a uma
+acurácia maior, e utilizando as seguintes variáveis:
+
+excursoes + trimestre\_q2 + trimestre\_q3
+
+nossa acurácia deste modelo foi de 75,98
+
+uma diferença de 1,42 para melhor, mas com um mínimo de variáveis.
+
+Chegando ao nosso modelo final escolhido:
+
+\begin{verbatim}
+  y (visitas) =  -24298.4 + (excursoes) * 959.6 + (trimestre_q2) * 59770.2 + (trimestre_q3) * 43877.7
+  
+\end{verbatim}
+
+Predizendo um registro de nossa base de dados
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{linha\_selecionada }\OtherTok{=}\NormalTok{ df[}\DecValTok{1}\NormalTok{,]}
+\NormalTok{linha\_selecionada}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 7
+##   visitas excursoes preco   ano trimestre_q2 trimestre_q3 trimestre_q4
+##     <dbl>     <dbl> <dbl> <dbl>        <dbl>        <dbl>        <dbl>
+## 1   86947       115   4.6  2014            0            0            0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\FloatTok{24298.4} \SpecialCharTok{+}\NormalTok{ linha\_selecionada}\SpecialCharTok{$}\NormalTok{excursoes }\SpecialCharTok{*} \FloatTok{959.6} \SpecialCharTok{+}\NormalTok{ linha\_selecionada}\SpecialCharTok{$}\NormalTok{trimestre\_q2 }\SpecialCharTok{*} \FloatTok{59770.2} \SpecialCharTok{+}\NormalTok{ linha\_selecionada}\SpecialCharTok{$}\NormalTok{trimestre\_q3 }\SpecialCharTok{*} \FloatTok{43877.7}
+\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 86055.6
+\end{verbatim}
+
+\end{document}
